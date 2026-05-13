@@ -88,6 +88,10 @@
     {% do return(queries) %}
 {% endmacro %}
 
+{% macro clickhouse__get_clean_elementary_test_tables_queries(test_table_relations) %}
+    {% do return(elementary.get_transactionless_clean_elementary_test_tables_queries(test_table_relations)) %}
+{% endmacro %}
+
 {% macro athena__get_clean_elementary_test_tables_queries(test_table_relations) %}
     {# Athena requires explicit backtick quoting for DROP TABLE statements to avoid parsing errors #}
     {% set queries = [] %}

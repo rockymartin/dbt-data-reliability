@@ -62,3 +62,8 @@
         temporary, relation, sql_query, should_commit=true
     ) %}
 {% endmacro %}
+
+{% macro clickhouse__create_or_replace(temporary, relation, sql_query) %}
+    {% do dbt.drop_relation_if_exists(relation) %}
+    {% do elementary.run_query(dbt.create_table_as(temporary, relation, sql_query)) %}
+{% endmacro %}
