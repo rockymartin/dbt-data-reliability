@@ -32,7 +32,3 @@
 {% macro fabricspark__target_database() %}
     {{ return(elementary.spark__target_database()) }}
 {% endmacro %}
-
-{% macro clickhouse__target_database() %}
-    {% do return(target.schema) %}
-{% endmacro %}
