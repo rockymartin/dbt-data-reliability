@@ -17,7 +17,8 @@ vars:
   mute_ensure_materialization_override: true
 
 models:
-  +enabled: "{{ target.type != 'fabric' }}"
+  # Fusion evaluates this during `dbt deps` before `target` exists; guard avoids dbt1501 undefined.
+  +enabled: "{{ target.type != 'fabric' if target is defined else true }}"
 
 target-path: "target" # directory which will store compiled SQL files
 clean-targets: # directories to be removed by `dbt clean`
@@ -26,6 +27,6 @@ clean-targets: # directories to be removed by `dbt clean`
   - "dbt_modules"
 
 on-run-start:
-  - "{{ elementary.on_run_start() if target.type != 'fabric' }}"
+  - "{{ elementary.on_run_start() if target is defined and target.type != 'fabric' }}"
 on-run-end:
-  - "{{ elementary.on_run_end() if target.type != 'fabric' }}"
+  - "{{ elementary.on_run_end() if target is defined and target.type != 'fabric' }}"
